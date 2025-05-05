@@ -1,4 +1,4 @@
-# Write your Readme here; explaining how to use this app
+# Patient information .csv to .json converter
 
 --
 This application takes in a .csv file containing patient information, and converts it to json.
