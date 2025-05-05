@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const { parse } = require('csv');
 
+
+
 module.exports = {
     watched: null,
     output: null,
@@ -16,6 +18,7 @@ module.exports = {
         this.processed = proc;
     },
     processChange: function (file) {
+        console.log('\x1b[38;2;255;165;0m%s\x1b[0m',`Taking in ${file}`, '\n');
         const outputFile = path.resolve(this.output, path.basename(file).replace('.csv', '.json'));
         const processedFile = path.resolve(this.processed, path.basename(file));
         let rows = [];
@@ -35,10 +38,16 @@ module.exports = {
                     fs.writeFile(outputFile, JSON.stringify(rows, null, 2), (err) => {
                         if (err) { return; }
 
-                        console.info('\x1b[38;2;0;0;170m%s\x1b[0m', `Parsed ${file}`);
+                        console.info('\x1b[38;2;0;0;170m%s\x1b[0m', `Parsed: ${file}`, '\n');
+                        //Reports that the new JSON file has been created in the outbound directory
+                        console.info('\x1b[38;2;0;0;170m%s\x1b[0m', `File created: ${outputFile}`, '\n');
+                        //Reports that the processed file has been moved to the processed directory
+                        console.info('\x1b[38;2;0;0;170m%s\x1b[0m', `Moved: ${file} to ${processedFile}`, '\n');
                     });
                 });
             })
-            .on('error', (err) => { });
+            .on('error', (err) => { 
+                console.error({error: err.message});
+            });
     }
 };

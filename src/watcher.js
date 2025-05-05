@@ -32,6 +32,9 @@ module.exports = {
             .on('add', (path) => {
                 parser.processChange(path);
             })
-            .on('error', (err) => { });
+            .on('error', (err) => { 
+                console.error({error: err.message});
+            });
     }
 };
+
